@@ -1,0 +1,27 @@
+var request = require('request');
+
+async function testFunction() {
+  const options = {
+    method: 'GET',
+    url: 'https://www.falabella.com/rest/model/atg/userprofiling/ProfileActor/fetchSessionInfo',
+    headers: {
+      'Content-Type': 'application/json',
+      'User-Agent': 'Amanda'
+    }
+  }
+  return new Promise((resolve, reject) => {
+    request(options, (err, res, body) => {
+      if (err) {
+        reject('Service-error');
+      }
+      let bodyParseado = JSON.parse(body);
+      resolve(!bodyParseado.success);
+    })
+  })
+}
+
+test('The data is boolean = false', async () => {
+  const data = await testFunction();
+  expect(data).toBeFalsy();
+ //expect(data).toBe('peanut butter');
+});
